@@ -41,7 +41,7 @@ def main():
     }
     response = requests.get(url=filings_url, params=params, headers=headers)
     soup = BeautifulSoup(response.content, "lxml-xml")
-    print(response.url)
+    # print(response.url)
     # Obtain every filing
     entries = soup.find_all("entry")
     filings = []
@@ -60,21 +60,21 @@ def main():
             # Construct Filing object
             filing = Filing(accession_number, statement_url, filing_date)
             filings.append(filing)
-
+            print("_" * 100)
             try:
-                print(f"Financial statement {filing.financial_statement.url}")
+                print(f"Financial statement: {filing.financial_statement.url}")
             except AttributeError:
                 print("There  was an error retrieving the Financial Statement")
                 break
 
             try:
-                print(f"Balance sheet {filing.balance_sheet.url}")
+                print(f"Balance sheet: {filing.balance_sheet.url}")
             except AttributeError:
                 print("There  was an error retrieving the Balance Sheet")
                 break
 
             try:
-                print(f"Cash Flow{filing.cash_flow_statement.url}")
+                print(f"Cash Flow: {filing.cash_flow_statement.url}")
             except AttributeError:
                 print("There  was an error retrieving the Cash Flow")
                 break
