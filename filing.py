@@ -16,7 +16,7 @@ def get_statement_soup(report, base_url):
 
 def request_reports(base_url):
     response = requests.get(base_url + "/FilingSummary.xml", headers={'User-Agent': 'My User Agent 1.0'}).content
-    print(base_url + "/FilingSummary.xml")
+    # print(base_url + "/FilingSummary.xml")
     return BeautifulSoup(response, "lxml-xml")
 
 
