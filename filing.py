@@ -9,8 +9,9 @@ def get_statement_soup(report, base_url):
     html_file_name = report.find("HtmlFileName").text
     statement_url = base_url + "/" + html_file_name
     response = requests.get(statement_url, headers={'User-Agent': 'My User Agent 1.0'}).content
-    soup = BeautifulSoup(response, "lxml-xml")
+    soup = BeautifulSoup(response, "lxml")
     return statement_url, soup
+
 
 
 def request_reports(base_url):

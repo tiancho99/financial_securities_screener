@@ -1,4 +1,6 @@
-class BalanceSheet:
+from statement import Statement
+
+
+class BalanceSheet(Statement):
     def __init__(self, url, soup):
-        self.url = url
-        self.soup = soup
+        super().__init__(url, soup)

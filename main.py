@@ -1,7 +1,8 @@
 from argparse import ArgumentParser
-# import pandas as pd
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from IPython.display import display
 
 # from financial_statement import FinancialStatement
 from filing import Filing
@@ -50,12 +51,15 @@ def main():
         filing_type = entries[i].find("filing-type").text.lower()
         if entries[i] is not None and filing_type == args.form_type:
             filing_date = entries[i].find("filing-date").text
+
             # Get filing accession number to construct the url for the filing
             accession_number = entries[i].find("accession-number")
             accession_number = accession_number.text.replace('-', '')
             statement_url = base_url + f"/Archives/edgar/data/{args.cik}/{accession_number}"
+
             # Construct Filing object
             filing = Filing(accession_number, statement_url, filing_date)
+            filings.append(filing)
 
             try:
                 print(f"Financial statement {filing.financial_statement.url}")
@@ -74,6 +78,19 @@ def main():
             except AttributeError:
                 print("There  was an error retrieving the Cash Flow")
                 break
+
+    consolidated_table = pd.DataFrame({})
+    consolidated_table.index = filings[0].financial_statement.table.index
+    # display(filings[0].financial_statement.table.index)
+
+    # for filing in filings:
+    #     print(filing.table.to_string())
+        # filing_fs = filing.financial_statement.table
+        # consolidated_table = consolidated_table.merge(filing_fs, how="left", left_index=True, right_index=True)
+        # display(filing_fs.iloc[filing_fs.index.values.tolist().index("net income")])
+
+    # consolidated_table = consolidated_table.astype(float)
+    # display(consolidated_table.to_string())
 
 
 if __name__ == '__main__':
